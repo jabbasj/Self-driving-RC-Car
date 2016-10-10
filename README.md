@@ -6,18 +6,27 @@ Controls:
   Mouse, WASD, Space bar - Movement
   
   P - Copies the model ur pointing at to your location
-  O - Saves current state of models so they reload next time
-  R - Toggle ignore road selection
-  G - Toggle "gravity"(ground-movement)/free camera
   
+  O - Saves current state of models so they reload next time
+  
+  R - Toggle ignore road selection
+  
+  G - Toggle "gravity"(ground-movement)/free camera
+    
   Left click - Translate selected object away from you
+  
   Right click - Translate selected object towards from you
+  
   Right arrow - Rotate object around its center to the right
+  
   Left arrow - Rotate object around its center to the left
+  
   Numpad Add - Scale up object
-  Numpad Substract - Scale down object
+  
+  Numpad Substract - Scale down object  
   
   Numpad 1,2,3 - Render triangles, meshes, vertices
+  
   Page Up/Down - Resize window
 
 ![promisechains](https://cloud.githubusercontent.com/assets/16614194/19246346/e5cbe120-8ef3-11e6-81bc-4d07a2c19130.png)
