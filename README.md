@@ -1,6 +1,8 @@
 # COEN490
 Electrical/Computer Engineering Capstone Project - Self-driving car (simulation)
 
+Copy "models" folder into folder with .exe (i.e. inside release or debug)!!
+
 Controls:
 
   Mouse, WASD, Space bar - Movement
