@@ -1,0 +1,47 @@
+newmtl default
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0 0 0
+Ks 1 1 1
+Km 0
+
+newmtl default_door
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/ddr1.jpg
+
+newmtl default_vehicle
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 0.141176 0.164706 0.176471
+Ks 0 0 0
+Km 0
+
+newmtl default_skin
+d 1
+Ns 1
+Ni 0
+Ka 0 0 0
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+map_Kd /Maps/vk1.jpg
+
+newmtl default_signs
+d 1
+Ns 1
+Ni 0
+Ka 0.752941 0.752941 0.752941
+Kd 1 1 1
+Ks 1 1 1
+Km 0
+

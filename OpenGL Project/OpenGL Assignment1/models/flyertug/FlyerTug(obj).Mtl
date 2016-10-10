@@ -1,0 +1,481 @@
+# Created By Carrara 5.0
+
+newmtl Texture_0
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.611765 0.603922 0.545098
+ Ks 0 0 0
+ map_Kd Texture_0.jpg
+
+newmtl Side_face_0
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.611765 0.603922 0.545098
+ Ks 0 0 0
+ map_Kd Texture_0.jpg
+
+newmtl Front_face_0
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.611765 0.603922 0.545098
+ Ks 0 0 0
+ map_Kd Texture_0.jpg
+
+newmtl Front_face_1
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.611765 0.603922 0.545098
+ Ks 0 0 0
+ map_Kd Texture_0.jpg
+
+newmtl Texture_0_1
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.384314 0.368627 0.356863
+ Ks 0 0 0
+ map_Kd Texture_01.jpg
+
+newmtl Texture_0_2
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.384314 0.368627 0.356863
+ Ks 0 0 0
+ map_Kd Texture_01.jpg
+
+newmtl Texture_0_3
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.384314 0.368627 0.356863
+ Ks 0 0 0
+ map_Kd Texture_01.jpg
+
+newmtl Texture_0_4
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.384314 0.368627 0.356863
+ Ks 0 0 0
+ map_Kd Texture_01.jpg
+
+newmtl Side_face_0_1
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.505882 0.486275 0.462745
+ Ks 0 0 0
+ map_Kd Side_face_0.jpg
+
+newmtl Front_face_0_1
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.505882 0.486275 0.462745
+ Ks 0 0 0
+ map_Kd Side_face_0.jpg
+
+newmtl Front_face_1_1
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.505882 0.486275 0.462745
+ Ks 0 0 0
+ map_Kd Side_face_0.jpg
+
+newmtl Texture_0_5
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.290196 0.286275 0.309804
+ Ks 0 0 0
+ map_Kd Texture_02.jpg
+
+newmtl Texture_0_6
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.356863 0.356863 0.356863
+ Ks 0 0 0
+ map_Kd Texture_03.jpg
+
+newmtl Texture_0_7
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.356863 0.356863 0.356863
+ Ks 0 0 0
+ map_Kd Texture_03.jpg
+
+newmtl Texture_0_8
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.356863 0.356863 0.356863
+ Ks 0 0 0
+ map_Kd Texture_03.jpg
+
+newmtl Texture_0_9
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.356863 0.356863 0.356863
+ Ks 0 0 0
+ map_Kd Texture_03.jpg
+
+newmtl Texture_0_10
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.356863 0.356863 0.356863
+ Ks 0 0 0
+ map_Kd Texture_03.jpg
+
+newmtl Texture_0_11
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.356863 0.356863 0.356863
+ Ks 0 0 0
+ map_Kd Texture_03.jpg
+
+newmtl Intakes_Interior
+ Ns 43
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.784314 0.784314 0.784314
+ Ks 0.986816 0.95053 0.828962
+ map_Kd Intakes_Interior.jpg
+
+newmtl Intakes_Exterior
+ Ns 43
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.784314 0.784314 0.784314
+ Ks 0.986816 0.95053 0.828962
+ map_Kd Intakes_Interior.jpg
+
+newmtl BlackBack
+ Ns 43
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.541176 0.521569 0.537255
+ Ks 0.999954 0.981521 0.868421
+ map_Kd BlackBack.jpg
+
+newmtl Winglets
+ Ns 43
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.541176 0.521569 0.537255
+ Ks 0.999954 0.981521 0.868421
+ map_Kd BlackBack.jpg
+
+newmtl Fuselage
+ Ns 43
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.784314 0.784314 0.784314
+ Ks 0.986816 0.95053 0.828962
+ map_Kd Intakes_Interior.jpg
+
+newmtl CockpitframeBlk
+ Ns 43
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.541176 0.521569 0.537255
+ Ks 0.999954 0.981521 0.868421
+ map_Kd BlackBack.jpg
+
+newmtl CanopyGlass
+ Ns 3547
+ d 0.28909
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0 0 0
+ Ks 0.88954 0.999939 0.992737
+
+newmtl Rims
+ Ns 43
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.541176 0.521569 0.537255
+ Ks 0.999954 0.981521 0.868421
+ map_Kd BlackBack.jpg
+
+newmtl WheelWells
+ Ns 43
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.541176 0.521569 0.537255
+ Ks 0.999954 0.981521 0.868421
+ map_Kd BlackBack.jpg
+
+newmtl Cockpit_Interior
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.611765 0.603922 0.545098
+ Ks 0 0 0
+ map_Kd Texture_0.jpg
+
+newmtl Frameyellow
+ Ns 43
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.541176 0.521569 0.537255
+ Ks 0.999954 0.981521 0.868421
+ map_Kd BlackBack.jpg
+
+newmtl topbit
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.286275 0.286275 0.286275
+ Ks 0 0 0
+ map_Kd topbit.jpg
+
+newmtl Texture_0_12
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.278431 0.286275 0.282353
+ Ks 0 0 0
+ map_Kd Texture_04.jpg
+
+newmtl Texture_0_13
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.431373 0.431373 0.439216
+ Ks 0 0 0
+ map_Kd Texture_05.jpg
+
+newmtl Texture_0_14
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.431373 0.431373 0.439216
+ Ks 0 0 0
+ map_Kd Texture_05.jpg
+
+newmtl Texture_0_15
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.431373 0.431373 0.439216
+ Ks 0 0 0
+ map_Kd Texture_05.jpg
+
+newmtl Texture_0_16
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.858824 0.67451 0.313726
+ Ks 0 0 0
+ map_Kd Texture_06.jpg
+
+newmtl Texture_0_17
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.858824 0.67451 0.313726
+ Ks 0 0 0
+ map_Kd Texture_06.jpg
+
+newmtl Side_face_0_2
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.858824 0.67451 0.313726
+ Ks 0 0 0
+ map_Kd Texture_06.jpg
+
+newmtl Front_face_0_2
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.858824 0.67451 0.313726
+ Ks 0 0 0
+ map_Kd Texture_06.jpg
+
+newmtl Front_face_1_2
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.858824 0.67451 0.313726
+ Ks 0 0 0
+ map_Kd Texture_06.jpg
+
+newmtl Webdet
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.858824 0.67451 0.313726
+ Ks 0 0 0
+ map_Kd Texture_06.jpg
+
+newmtl Texture_0_18
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.34902 0.356863 0.313726
+ Ks 0 0 0
+ map_Kd Texture_07.jpg
+
+newmtl Texture_0_19
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.34902 0.356863 0.313726
+ Ks 0 0 0
+ map_Kd Texture_07.jpg
+
+newmtl Texture_0_20
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.203922 0.203922 0.203922
+ Ks 0 0 0
+ map_Kd Texture_08.jpg
+
+newmtl Texture_0_21
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.858824 0.67451 0.313726
+ Ks 0 0 0
+ map_Kd Texture_06.jpg
+
+newmtl Texture_0_22
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.34902 0.356863 0.313726
+ Ks 0 0 0
+ map_Kd Texture_07.jpg
+
+newmtl Texture_0_23
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.34902 0.356863 0.313726
+ Ks 0 0 0
+ map_Kd Texture_07.jpg
+
+newmtl Texture_0_24
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.203922 0.203922 0.203922
+ Ks 0 0 0
+ map_Kd Texture_08.jpg
+
+newmtl Texture_0_25
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.298955 0.298955 0.298955
+ Kd 0.858824 0.67451 0.313726
+ Ks 0 0 0
+ map_Kd Texture_06.jpg
+

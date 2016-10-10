@@ -1,0 +1,14 @@
+# Created By Carrara 8.0
+
+newmtl Default
+ Ns 1024
+ d 1
+ Ni 0.001
+ illum 2
+ Ka 0.2 0.2 0.2
+ Kd 1 1 1
+ Ks 0.760784 0.760784 0.760784
+ map_Kd .\Default.png
+ map_Ks .\Default1.png
+ map_Bump .\Default2.png
+

@@ -1,0 +1,30 @@
+# 3ds Max Wavefront OBJ Exporter v0.94b - (c)2007 guruware
+# File Created: 03.02.2012 01:33:29
+
+newmtl 07___Default
+	Ns 19.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 0.5882 0.5882 0.5882
+	Ks 0.3420 0.3420 0.3420
+	Ke 0.0000 0.0000 0.0000
+	map_Ka .\green_diff.jpg
+	map_Kd .\green_diff.jpg
+	map_refl .\green_ref.jpg
+
+newmtl 01___Default
+	Ns 16.0000
+	Ni 1.5000
+	d 1.0000
+	Tr 1.0000
+	Tf 1.0000 1.0000 1.0000 
+	illum 2
+	Ka 0.0000 0.0000 0.0000
+	Kd 0.1137 0.1137 0.1137
+	Ks 0.6570 0.6570 0.6570
+	Ke 0.0000 0.0000 0.0000
+	map_refl .\green_ref.jpg
