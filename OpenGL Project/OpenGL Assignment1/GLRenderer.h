@@ -47,6 +47,8 @@ protected:
 	void ReadModelMatrices();				// Read "Object Matrices.txt" and fills the ModelData array, which holds transformation for a model
 	void RequestUserInput();
 
+	void move(); //test streetmap
+
 protected:
 	GLProgram* m_pProgram;					// Program
 	GLShader*  m_pVertSh;					// Vertex shader

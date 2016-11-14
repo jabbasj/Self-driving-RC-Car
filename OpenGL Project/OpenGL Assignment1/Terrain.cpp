@@ -5,9 +5,9 @@ using namespace glm;
 int Terrain::MAX_X_POS = 0;
 int Terrain::MAX_Z_POS = 0;
 
-int Terrain::HEIGHT_SCALAR = 250;
-int Terrain::X_SCALAR = 100;
-int Terrain::Z_SCALAR = 100;
+int Terrain::HEIGHT_SCALAR = 5;
+int Terrain::X_SCALAR = 10;
+int Terrain::Z_SCALAR = 10;
 
 
 void Terrain::InsertPoint(Vertex v) {
@@ -33,12 +33,12 @@ void Terrain::Draw(GLFWwindow * win) {
 }
  
 //Source: https://www.opengl.org/discussion_boards/showthread.php/185140-Loading-bitmap-with-SOIL-then-convert-to-int
+//Assumes NxN picture
 void Terrain::GenerateDepthMap() {
 
-	// These points should come from some kind of random source
 	int width, height;
 
-	unsigned char* pixels_ = SOIL_load_image("./models/straight_map.bmp", &width, &height, 0, SOIL_LOAD_RGB);
+	unsigned char* pixels_ = SOIL_load_image("./models/city.bmp", &width, &height, 0, SOIL_LOAD_RGB);
 
 	MAX_X_POS = width;
 	MAX_Z_POS = height;
@@ -62,6 +62,17 @@ void Terrain::GenerateDepthMap() {
 			v.Position.z = j * Z_SCALAR + Z_TRANSLATE;
 			InsertPoint(v);
 
+			//STREET MAP TEST
+			_vec2 temp;
+			temp.x = v.Position.x;
+			temp.z = v.Position.z;
+			int identifier = 0; /*street*/
+
+			if (v.Position.y > 0.0f) {
+				identifier = 1; /*not street*/
+			}
+
+			StreetMap.insert(std::pair<_vec2, int>(temp, identifier));
 		}
 	}
 

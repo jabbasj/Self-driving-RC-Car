@@ -1,7 +1,7 @@
 #include "all_headers.h"
 
-#define X_TRANSLATE -13000
-#define Z_TRANSLATE -13000
+#define X_TRANSLATE 0
+#define Z_TRANSLATE 0
 #define NUM_OF_TEXTURES 3
 
 
@@ -15,7 +15,7 @@ protected:
 
 	std::multimap<_vec2, Vertex> DepthMap;
 	std::multimap<_vec2, bool> SpawnMap;
-
+	std::multimap<_vec2, int> StreetMap;
 	std::vector<Vertex> vertices;
 	GLuint terrain_texture;
 

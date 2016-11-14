@@ -248,6 +248,38 @@ void GLRenderer::SetData()
 	ScatterModels();
 }
 
+//TEST STREET MAP DETECTION
+void GLRenderer::move() {
+	// Static -> Called only first time
+	static double lastTime = glfwGetTime();
+
+	// Time since last frame
+	double currentTime = glfwGetTime();
+	float deltaTime = float(currentTime - lastTime);
+
+	if (glfwGetKey(win, GLFW_KEY_Q) != GLFW_PRESS){
+		lastTime = currentTime;
+		return;
+	}
+
+	glm::vec3 currPosition = position + 75.0f * direction;
+	_vec2 pos;
+	pos.x = (int(currPosition.x) + (m_Terrain.X_SCALAR / 2)) / m_Terrain.X_SCALAR * m_Terrain.X_SCALAR;
+	pos.z = (int(currPosition.z) + (m_Terrain.Z_SCALAR / 2)) / m_Terrain.Z_SCALAR * m_Terrain.Z_SCALAR;
+
+	int street_identifier = 0;
+	
+	if (m_Terrain.StreetMap.count(pos) == 1) {
+
+		street_identifier = m_Terrain.StreetMap.find(pos)->second;
+
+		if (street_identifier == 0) {
+			position += direction * deltaTime * speed;
+		}
+	}
+
+	lastTime = currentTime;
+}
 
 // Main part of game loop.
 // Meshes & Terrain draws themselves
@@ -263,6 +295,8 @@ void GLRenderer::DrawScene()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (glfwWindowShouldClose(win)) return;
+
+	move();
 
 	UpdateMatricesFromInputs();		// Update camera position and view / projection matrices
 	HandleModelManipulation();

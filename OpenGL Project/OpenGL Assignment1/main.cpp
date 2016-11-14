@@ -29,7 +29,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 #ifdef CAP_FPS
 	//Code for FPS capping
-	const int FRAMES_PER_SECOND = 60;
+	const int FRAMES_PER_SECOND = 30;
 	const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
 	DWORD next_game_tick = GetTickCount();
 	int sleep_time = 0;
@@ -41,7 +41,6 @@ int _tmain(int argc, _TCHAR* argv[])
 		static unsigned int render_time = 0;
 		int now = glfwGetTime() * 1000;
 #endif
-
 		// Clear & Draw
 		myRenderer.DrawScene();
 
