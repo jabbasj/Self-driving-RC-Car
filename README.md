@@ -14,6 +14,8 @@ Controls:
   R - Toggle ignore road selection
   
   G - Toggle "gravity"(ground-movement)/free camera
+  
+  Q - Move if on a street
     
   Left click - Translate selected object away from you
   
@@ -30,6 +32,10 @@ Controls:
   Numpad 1,2,3 - Render triangles, meshes, vertices
   
   Page Up/Down - Resize window
+
+![promisechains](https://cloud.githubusercontent.com/assets/16614194/20250823/0c55111a-a9e1-11e6-93e5-df231ee69fc5.png)
+
+![promisechains](https://cloud.githubusercontent.com/assets/16614194/20250826/11155c1e-a9e1-11e6-997a-0fe2ccf34f59.png)
 
 ![promisechains](https://cloud.githubusercontent.com/assets/16614194/19246346/e5cbe120-8ef3-11e6-81bc-4d07a2c19130.png)
 
