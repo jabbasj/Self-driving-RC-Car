@@ -1,6 +1,3 @@
-// OpenGL Assignment1.cpp : Defines the entry point for the console application.
-//
-
 #include "all_headers.h"
 #define CAP_FPS
 
@@ -39,7 +36,6 @@ int _tmain(int argc, _TCHAR* argv[])
 	do{
 #ifdef CAP_FPS
 		static unsigned int render_time = 0;
-		int now = glfwGetTime() * 1000;
 #endif
 		// Clear & Draw
 		myRenderer.DrawScene();

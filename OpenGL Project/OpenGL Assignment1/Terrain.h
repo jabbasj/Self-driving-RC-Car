@@ -20,13 +20,8 @@ protected:
 	GLuint terrain_texture;
 
 	void InsertPoint(Vertex v);
-
 	void Draw(GLFWwindow * win);
-
 	bool CheckNothingNearby(_vec2 pos);		// Checks for spawned models near given position
-
-	void ExpandTerrainBasedOnCamPos(glm::vec3 position);
-
 	void RequestUserInput();
 
 	static int MAX_X_POS;
@@ -40,11 +35,7 @@ protected:
 private:
 	void SetupTerrain();
 	void GenerateDepthMap();
-	void ModifyTerrain();
 	void LoadVertices();
-	void ExpandTerrain(_vec2 newTile);
-	void SetupTerrainEdges();
-	void AdjustDepthMapEdge();
 
 	GLuint VAO, VBO;
 

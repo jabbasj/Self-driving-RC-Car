@@ -79,10 +79,10 @@ unsigned long GLShader::getFileLength(std::ifstream& file)
 {
 	if (!file.good()) return 0;
 
-	unsigned long pos = file.tellg();
+	std::streamoff pos = file.tellg();
 	file.seekg(0, std::ios::end);
-	unsigned long len = file.tellg();
+	std::streamoff len = file.tellg();
 	file.seekg(std::ios::beg);
 
-	return len;
+	return unsigned long(len);
 }

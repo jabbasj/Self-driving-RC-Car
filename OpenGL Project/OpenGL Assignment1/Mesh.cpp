@@ -70,7 +70,7 @@ void Mesh::Draw(GLFWwindow * win) {
 void Mesh::ComputeCentroid() {
 
 	// Find Center
-	for (int k = 0; k < vertices.size(); k++) {
+	for (size_t k = 0; k < vertices.size(); k++) {
 		if (vertices[k].Position.x > max.x) max.x = vertices[k].Position.x;
 		if (vertices[k].Position.x < min.x) min.x = vertices[k].Position.x;
 

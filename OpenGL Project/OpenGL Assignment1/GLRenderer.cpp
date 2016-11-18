@@ -2,9 +2,6 @@
 
 GLRenderer::GLRenderer(GLFWwindow * _win){ win = _win; }
 
-bool GLRenderer::FINISHED_SPAWNING = true;
-int GLRenderer::PENDING_UPDATE = -1;
-
 // Loads the shaders and programs, initializes opengl params
 // Mesh and Terrain Setup themselves
 void GLRenderer::PrepareScene()
@@ -148,11 +145,11 @@ void GLRenderer::LoadBankModels() {
 
 	bool already_loaded = false;
 
-	for (int i = 0; i < model_data.size(); i++) {
+	for (size_t i = 0; i < model_data.size(); i++) {
 
 		already_loaded = false;
 
-		for (int j = 0; j < m_ModelsBank.size(); j++) {
+		for (size_t j = 0; j < m_ModelsBank.size(); j++) {
 
 			if (m_ModelsBank[j]->name == model_data[i].name) {
 				already_loaded = true;
@@ -172,9 +169,10 @@ void GLRenderer::LoadBankModels() {
 	}
 }
 
+
 void GLRenderer::RenderModel(std::string name, bool transform) {
 
-	for (int i = 0; i < m_ModelsBank.size(); i++) {
+	for (size_t i = 0; i < m_ModelsBank.size(); i++) {
 		if (name == m_ModelsBank[i]->name) {
 			CopyModel(m_ModelsBank[i]);
 
@@ -187,36 +185,19 @@ void GLRenderer::RenderModel(std::string name, bool transform) {
 
 }
 
+
 void GLRenderer::ScatterModels() {
 
 	int copied_model_index = 0;
-	_vec2 pos;
 
-	for (int i = 0; i < model_data.size(); i++) {
+	for (size_t i = 0; i < model_data.size(); i++) {
 
-		for (int j = 0; j < m_ModelsBank.size(); j++) {
+		for (size_t j = 0; j < m_ModelsBank.size(); j++) {
 			if (model_data[i].name == m_ModelsBank[j]->name) {
 				copied_model_index = j;
 				break;
 			}
 		}
-		/*
-		auto it = m_Terrain.SpawnMap.find()
-
-		do {		
-			it = m_Terrain.SpawnMap.begin();
-			std::advance(it, rand() % m_Terrain.SpawnMap.size());
-			pos = it->first;
-			
-		} while (!m_Terrain.CheckNothingNearby(it->first));
-
-		it->second = true;		
-
-		glm::vec3 position = m_Terrain.DepthMap.find(pos)->second.Position;		
-
-		m_Models.back()->Center();
-		m_Models.back()->Translate(position);
-		m_Models.back()->Scale(m_Models.back()->scale);*/
 
 		CopyModel(m_ModelsBank[copied_model_index]);
 		m_Models.back()->Transform(model_data[i].transformation);
@@ -243,8 +224,8 @@ void GLRenderer::SetData()
 
 	m_Models.push_back(new Model("./models/Mars_Explorer/Mars_Explorer.obj", "first_person"));	// First person model
 	m_Models.back()->scale = glm::vec3(0.15, 0.15, 0.15);
-	
-	srand(time(NULL));	
+
+	srand(size_t(time(NULL)));	
 	ScatterModels();
 }
 
@@ -264,8 +245,8 @@ void GLRenderer::move() {
 
 	glm::vec3 currPosition = position + 75.0f * direction;
 	_vec2 pos;
-	pos.x = (int(currPosition.x) + (m_Terrain.X_SCALAR / 2)) / m_Terrain.X_SCALAR * m_Terrain.X_SCALAR;
-	pos.z = (int(currPosition.z) + (m_Terrain.Z_SCALAR / 2)) / m_Terrain.Z_SCALAR * m_Terrain.Z_SCALAR;
+	pos.x = float((int(currPosition.x) + (m_Terrain.X_SCALAR / 2)) / m_Terrain.X_SCALAR * m_Terrain.X_SCALAR);
+	pos.z = float((int(currPosition.z) + (m_Terrain.Z_SCALAR / 2)) / m_Terrain.Z_SCALAR * m_Terrain.Z_SCALAR);
 
 	int street_identifier = 0;
 	
@@ -309,16 +290,16 @@ void GLRenderer::DrawScene()
 	m_Terrain.Draw(win);
 
 	// Draw Models
-	int models_count = m_Models.size();
-	for (int i = 0; i < models_count; i++) {
+	size_t models_count = m_Models.size();
+	for (size_t i = 0; i < models_count; i++) {
 
 		if (!m_Models[i]->ready) continue;
 
 		if (m_Models[i]->name == "sky") {
 			glDisable(GL_CULL_FACE);
 		}
-		int mesh_count = m_Models[i]->meshes.size();
-		for (int j = 0; j < mesh_count; j++) {
+		size_t mesh_count = m_Models[i]->meshes.size();
+		for (size_t j = 0; j < mesh_count; j++) {
 
 			if (m_Models[i]->meshes[j].ready) {
 				glUniformMatrix4fv(M_MatrixID, 1, GL_FALSE, &m_Models[i]->meshes[j].ModelMat[0][0]);
@@ -396,7 +377,7 @@ void GLRenderer::GroundDetection() {
 	Vertex intersection;
 	glm::vec3 terrain_pos;
 
-	for (int i = 0; i < near_intersections.size(); i++) {
+	for (size_t i = 0; i < near_intersections.size(); i++) {
 		pos = near_intersections[i];
 
 		if (m_Terrain.DepthMap.count(pos) > 0) {
@@ -428,8 +409,8 @@ void GLRenderer::RayTracing() {
 	glm::vec3 intersection_normal;
 	float dist = 0.0f;
 
-	int model_count = m_Models.size();
-	for (int j = 0; j < model_count; j++) {
+	size_t model_count = m_Models.size();
+	for (size_t j = 0; j < model_count; j++) {
 
 		if (glfwWindowShouldClose(win)) { return; }
 		if (m_Models[j]->name == "first_person") continue;
@@ -437,8 +418,8 @@ void GLRenderer::RayTracing() {
 		if (ignore_roads && (m_Models[j]->name == "road1" || m_Models[j]->name == "road3")) continue;
 		if (!m_Models[j]->ready) { continue; }
 
-		int mesh_count = m_Models[j]->meshes.size();
-		for (int k = 0; k < mesh_count; k++) {
+		size_t mesh_count = m_Models[j]->meshes.size();
+		for (size_t k = 0; k < mesh_count; k++) {
 			Mesh * mesh = &m_Models[j]->meshes[k];
 
 			glm::vec3 mesh_pos(mesh->ModelMat * mesh->centroid);
@@ -489,8 +470,8 @@ bool GLRenderer::CollisionDetection() {
 	}
 	bool hit = false;
 
-	int model_count = m_Models.size();
-	for (int j = 0; j < model_count; j++) {
+	size_t model_count = m_Models.size();
+	for (size_t j = 0; j < model_count; j++) {
 
 		if (glfwWindowShouldClose(win)) { return false; }
 		if (m_Models[j]->name == "first_person") continue;
@@ -498,8 +479,8 @@ bool GLRenderer::CollisionDetection() {
 		if (m_Models[j]->name == "road1" || m_Models[j]->name == "road3") continue;
 		if (!m_Models[j]->ready) { continue; }
 
-		int mesh_count = m_Models[j]->meshes.size();
-		for (int k = 0; k < mesh_count; k++) {
+		size_t mesh_count = m_Models[j]->meshes.size();
+		for (size_t k = 0; k < mesh_count; k++) {
 			Mesh * mesh = &m_Models[j]->meshes[k];
 
 			glm::vec3 mesh_pos(mesh->ModelMat * mesh->centroid);
@@ -622,22 +603,7 @@ void GLRenderer::HandleModelManipulation() {
 }
 
 
-// Expand terrain if needed
 void GLRenderer::HandleSpawning() {
-
-	/*
-	if (FINISHED_SPAWNING && PENDING_UPDATE >= -1) {
-
-		glBindBuffer(GL_ARRAY_BUFFER, m_Terrain.VBO);
-		glBufferData(GL_ARRAY_BUFFER, m_Terrain.vertices.size() * sizeof(Vertex), &m_Terrain.vertices[0], GL_STATIC_DRAW);
-
-		if (PENDING_UPDATE > -1) {
-			std::async(&GLRenderer::ScatterModels, this);
-			PENDING_UPDATE--;
-		}
-	}*/
-
-	//std::async(&Terrain::ExpandTerrainBasedOnCamPos, &m_Terrain, position);	// In Parallel
 
 	if (glfwGetKey(win, GLFW_KEY_P) == GLFW_PRESS) {
 		// Static -> Called only first time
@@ -690,6 +656,7 @@ void GLRenderer::CopyModelAtMyLocation(Model* copy_this) {
 	}
 	m_Models.back()->Scale(copy_this->scale);
 }
+
 
 Model* GLRenderer::CopyModel(Model* copy_this) {
 	m_Models.push_back(new Model(copy_this));
@@ -787,7 +754,7 @@ void GLRenderer::UpdateMatricesFromInputs(){
 	// Camera matrix
 	View = glm::lookAt(position, position + direction, up);	
 
-	for (int i = 0; i < m_Models.size(); i++) {
+	for (size_t i = 0; i < m_Models.size(); i++) {
 		if (m_Models[i]->name == "first_person") {
 			Model* first_person = m_Models[i];
 			glm::vec3 scale = first_person->scale;
@@ -851,15 +818,15 @@ void GLRenderer::DestroyScene()
 
 	Sleep(5000);
 
-	for (int i = 0; i < m_Models.size(); i++) {
+	for (size_t i = 0; i < m_Models.size(); i++) {
 		delete m_Models[i];
 	}
 
-	for (int i = 0; i < m_ModelsBank.size(); i++) {
+	for (size_t i = 0; i < m_ModelsBank.size(); i++) {
 		delete m_ModelsBank[i];
 	}
 
-	for (int i = 0; i < m_Bullets.size(); i++) {
+	for (size_t i = 0; i < m_Bullets.size(); i++) {
 		delete m_Bullets[i]->sphere;
 		delete m_Bullets[i];
 	}
@@ -905,7 +872,7 @@ void GLRenderer::ModelRotateSelf(float angle, Model* update_this) {
 
 // Based on name
 void GLRenderer::ModelCenter(std::string name) {
-	for (int i = 0; i < m_Models.size(); i++) {
+	for (size_t i = 0; i < m_Models.size(); i++) {
 		if (m_Models[i]->name == name) {
 			m_Models[i]->Center();
 		}
@@ -913,7 +880,7 @@ void GLRenderer::ModelCenter(std::string name) {
 }
 
 void GLRenderer::ModelTranslate(glm::vec3 change, std::string name) {
-	for (int i = 0; i < m_Models.size(); i++) {
+	for (size_t i = 0; i < m_Models.size(); i++) {
 		if (m_Models[i]->name == name) {
 			m_Models[i]->AbsoluteTranslate(change);
 		}
@@ -921,7 +888,7 @@ void GLRenderer::ModelTranslate(glm::vec3 change, std::string name) {
 }
 
 void GLRenderer::ModelScale(glm::vec3 change, std::string name) {
-	for (int i = 0; i < m_Models.size(); i++) {
+	for (size_t i = 0; i < m_Models.size(); i++) {
 		if (m_Models[i]->name == name) {
 			m_Models[i]->Scale(change);
 		}
@@ -929,7 +896,7 @@ void GLRenderer::ModelScale(glm::vec3 change, std::string name) {
 }
 
 void GLRenderer::ModelRotate(float angle, glm::vec3 vector, std::string name){
-	for (int i = 0; i < m_Models.size(); i++) {
+	for (size_t i = 0; i < m_Models.size(); i++) {
 		if (m_Models[i]->name == name) {
 			m_Models[i]->Rotate(angle * 1, vector);
 		}
@@ -937,7 +904,7 @@ void GLRenderer::ModelRotate(float angle, glm::vec3 vector, std::string name){
 }
 
 void GLRenderer::ModelReset(std::string name) {
-	for (int i = 0; i < m_Models.size(); i++) {
+	for (size_t i = 0; i < m_Models.size(); i++) {
 		if (m_Models[i]->name == name) {
 			m_Models[i]->Reset();
 		}
@@ -945,7 +912,7 @@ void GLRenderer::ModelReset(std::string name) {
 }
 
 void GLRenderer::ModelTransform(glm::mat4 tm, std::string name) {
-	for (int i = 0; i < m_Models.size(); i++) {
+	for (size_t i = 0; i < m_Models.size(); i++) {
 		if (m_Models[i]->name == name) {
 			m_Models[i]->Transform(tm);
 		}
@@ -957,27 +924,16 @@ void GLRenderer::OutputModelMatrices() {
 	if (glfwGetKey(win, GLFW_KEY_O) == GLFW_PRESS) {
 
 		std::ofstream File("Object Matrices.txt");
-		//std::vector<std::string> already_out;
-		//bool visited = false;
 
-		for (int i = 0; i < m_Models.size(); i++) {	
+		for (size_t i = 0; i < m_Models.size(); i++) {	
 			Model* model = m_Models[i];
-			//visited = false;
+
 			if (model->name == "first_person") continue;
 			if (model->name == "sky") continue;
 			if (!model->ready) continue;
 
-			/*
-			for (int k = 0; k < already_out.size(); k++) {
-				if (model->name == already_out[k]) {
-					visited = true;
-				}
-			}
-			if (visited) continue;*/
 
 			if (model->meshes.size() > 0) {		
-
-				//already_out.push_back(model->name);
 
 				glm::mat4 matrix = model->meshes[0].ModelMat;
 				std::string is_centered = "false";
@@ -1027,15 +983,15 @@ void GLRenderer::ReadModelMatrices() {
 		getline(File, Data);
 
 		float temp_float;
-		sep0 = Data.find_first_of('((');
-		sep1 = Data.rfind('))');
+		sep0 = Data.find_first_of("((");
+		sep1 = Data.rfind("))");
 
 		Data = Data.substr(sep0 + 1, sep1 - sep0 - 1);
 
 		glm::vec4 temp_vec;
 		std::string temp_string;
 
-		for (int i = 0; i < 4; i++) {
+		for (size_t i = 0; i < 4; i++) {
 
 			sep0 = Data.find_first_of('(');
 			sep1 = Data.find_first_of(',');
@@ -1091,7 +1047,6 @@ void GLRenderer::ReadModelMatrices() {
 
 
 void GLRenderer::RequestUserInput() {
-
 
 	int num = 0;
 	std::string input = "";

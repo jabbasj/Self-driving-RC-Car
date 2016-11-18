@@ -30,7 +30,7 @@ Model::Model(Model * copy_this) {
 	scale = copy_this->scale;
 	path = copy_this->path;
 
-	for (int i = 0; i < copy_this->meshes.size(); i++) {
+	for (size_t i = 0; i < copy_this->meshes.size(); i++) {
 		meshes.push_back(Mesh(&copy_this->meshes[i], this));
 	}
 
@@ -48,13 +48,13 @@ void Model::Draw(GLFWwindow * win)
 void Model::Update(GLFWwindow * win)
 {
 	if (name == "spinner") {
-		for (int i = 0; i < meshes.size(); i++) {
+		for (size_t i = 0; i < meshes.size(); i++) {
 			meshes[i].Spin(win);
 		}
 	}
 
 	if (name == "revolver") {
-		for (int i = 0; i < meshes.size(); i++) {
+		for (size_t i = 0; i < meshes.size(); i++) {
 			meshes[i].Revolve(win);
 		}
 	}
@@ -62,7 +62,7 @@ void Model::Update(GLFWwindow * win)
 
 void Model::AbsoluteTranslate(glm::vec3 change) {
 
-	for (int i = 0; i < meshes.size(); i++) {
+	for (size_t i = 0; i < meshes.size(); i++) {
 		meshes[i].ModelMat[3][0] += change.x;
 		meshes[i].ModelMat[3][1] += change.y;
 		meshes[i].ModelMat[3][2] += change.z;
@@ -71,7 +71,7 @@ void Model::AbsoluteTranslate(glm::vec3 change) {
 
 void Model::RelativeTranslate(glm::vec3 change) {
 
-	for (int i = 0; i < meshes.size(); i++) {
+	for (size_t i = 0; i < meshes.size(); i++) {
 		meshes[i].ModelMat = glm::translate(meshes[i].ModelMat, change);
 	}
 }
@@ -80,7 +80,7 @@ void Model::Scale(glm::vec3 change) {
 
 	glm::mat4 _scale = glm::scale(glm::mat4(), change);
 
-	for (int i = 0; i < meshes.size(); i++) {
+	for (size_t i = 0; i < meshes.size(); i++) {
 		meshes[i].ModelMat = meshes[i].ModelMat * _scale;
 	}
 }
@@ -90,14 +90,14 @@ void Model::Rotate(float angle, glm::vec3 vector) {
 
 	glm::mat4 rot = glm::rotate(glm::mat4(), angle, vector);
 
-	for (int i = 0; i < meshes.size(); i++) {
+	for (size_t i = 0; i < meshes.size(); i++) {
 		meshes[i].ModelMat = meshes[i].ModelMat * rot;
 	}
 }
 
 void Model::RotateSelf(float angle) {	
 
-	for (int i = 0; i < meshes.size(); i++) {
+	for (size_t i = 0; i < meshes.size(); i++) {
 
 		glm::vec3 mesh_pos(meshes[i].ModelMat * meshes[i].centroid);
 		mesh_pos.x = 0; mesh_pos.z = 0;
@@ -111,7 +111,7 @@ void Model::RotateSelf(float angle) {
 
 void Model::Center() {
 
-	for (int i = 0; i < meshes.size(); i++) {
+	for (size_t i = 0; i < meshes.size(); i++) {
 
 		meshes[i].ModelMat[3].x = 0;
 		meshes[i].ModelMat[3].y = 0;
@@ -127,7 +127,7 @@ void Model::Reset() {
 
 	glm::mat4 identity;
 
-	for (int i = 0; i < meshes.size(); i++) {
+	for (size_t i = 0; i < meshes.size(); i++) {
 
 		meshes[i].ModelMat = identity;
 
@@ -135,7 +135,7 @@ void Model::Reset() {
 }
 
 void Model::Transform(glm::mat4 tm) {
-	for (int i = 0; i < meshes.size(); i++) {
+	for (size_t i = 0; i < meshes.size(); i++) {
 		meshes[i].ModelMat = meshes[i].ModelMat * tm;
 	}
 }

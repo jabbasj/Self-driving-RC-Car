@@ -1,10 +1,5 @@
 #include "all_headers.h"
 
-// TODO: Random point lights in world
-// TODO: Add enemy AI class with basic hp, add shooting particles / effects?
-// TODO: Add support for resizing with mouse
-// TODO: Add shadows ^.^
-
 /* The engine & renderer combined.
    Manages the shaders, input/output, manipulates the models */
 class GLRenderer
@@ -16,9 +11,6 @@ public:
 	void DestroyScene();					// Cleanup
 
 	GLRenderer(GLFWwindow * _win);
-
-	static bool FINISHED_SPAWNING;
-	static int PENDING_UPDATE;
 
 protected:
 
@@ -40,8 +32,8 @@ protected:
 	Model* CopyModel(Model* copy_this);											// Copy constructor... avoids reloading object from files.
 
 	int NUM_OF_MODELS = 1;
-	void ScatterModels();			// Scatters random model from bank into the world every 10 seconds when holding W and expands terrain if needed
-	void HandleModelManipulation();			// Scales (mouse button 4,5) / Translates (right/left click) selected model
+	void ScatterModels();
+	void HandleModelManipulation();			// Scales (keypad +/-) / Translates (right/left click) selected model
 	void HandleSpawning();					// Spawns copy of pointed model under camera (P KEY)
 	void OutputModelMatrices();				// Writes all the existing model's Current Transformation Matrix into "Object Matrices.txt" (O KEY)
 	void ReadModelMatrices();				// Read "Object Matrices.txt" and fills the ModelData array, which holds transformation for a model
@@ -89,7 +81,7 @@ protected:
 	float verticalAngle = 0.0f;					// Initial vertical angle : none			(angle around X)
 
 	float FoV = 45.0f;							// Field of View
-	float speed = 300.0f;						// 100 units / sec
+	float speed = 300.0f;						// 300 units / sec
 	float mouseSpeed = 0.0025f;
 
 	// Based on possibly non-unique name
