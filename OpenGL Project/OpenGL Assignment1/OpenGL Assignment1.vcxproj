@@ -92,7 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="all_headers.h" />
-    <ClInclude Include="BulletParticle.h" />
+    <ClInclude Include="Autopilot.h" />
     <ClInclude Include="GLProgram.h" />
     <ClInclude Include="GLRenderer.h" />
     <ClInclude Include="GLShader.h" />
@@ -104,7 +104,7 @@
     <ClInclude Include="Terrain.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BulletParticle.cpp" />
+    <ClCompile Include="Autopilot.cpp" />
     <ClCompile Include="GLProgram.cpp" />
     <ClCompile Include="GLRenderer.cpp" />
     <ClCompile Include="GLShader.cpp" />

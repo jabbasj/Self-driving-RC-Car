@@ -5,24 +5,18 @@
 #define NUM_OF_TEXTURES 3
 
 
-/* TODO:
-		Procedural generation of terrain
-*/
-
 class Terrain {
 	friend class GLRenderer;
+	friend class Autopilot;
 protected:
 
 	std::multimap<_vec2, Vertex> DepthMap;
-	std::multimap<_vec2, bool> SpawnMap;
 	std::multimap<_vec2, int> StreetMap;
 	std::vector<Vertex> vertices;
 	GLuint terrain_texture;
 
 	void InsertPoint(Vertex v);
 	void Draw(GLFWwindow * win);
-	bool CheckNothingNearby(_vec2 pos);		// Checks for spawned models near given position
-	void RequestUserInput();
 
 	static int MAX_X_POS;
 	static int MAX_Z_POS;
@@ -30,11 +24,11 @@ protected:
 	static int HEIGHT_SCALAR;
 	static int X_SCALAR;
 	static int Z_SCALAR;
-	int NUM_OF_LINES = 15;
 
 private:
 	void SetupTerrain();
 	void GenerateDepthMap();
+	void GenerateStreetMap();
 	void LoadVertices();
 
 	GLuint VAO, VBO;

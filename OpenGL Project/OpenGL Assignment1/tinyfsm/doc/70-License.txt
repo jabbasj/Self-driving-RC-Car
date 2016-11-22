@@ -1,0 +1,7 @@
+License
+=======
+
+TinyFSM is free software, available under the [GNU General Public
+License, Version 3][GPLv3].
+
+  [GPLv3]: http://www.gnu.org/licenses/gpl.html

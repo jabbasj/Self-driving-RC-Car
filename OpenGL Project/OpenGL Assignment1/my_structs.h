@@ -30,6 +30,17 @@ struct _vec2 {
 			return false;
 		return false;
 	}
+
+	bool operator!=(const _vec2& v) const {
+		if (x == v.x && z == v.z) {
+			return false;
+		}
+		return true;
+	}
+
+	bool operator==(const _vec2& v) const {
+		return !operator!=(v);
+	}
 };
 
 

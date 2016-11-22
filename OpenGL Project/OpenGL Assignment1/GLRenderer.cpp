@@ -253,13 +253,52 @@ void GLRenderer::move() {
 	if (m_Terrain.StreetMap.count(pos) == 1) {
 
 		street_identifier = m_Terrain.StreetMap.find(pos)->second;
+		std::cout << "STREET_ID: " << street_identifier << std::endl;
 
-		if (street_identifier == 0) {
+		if (street_identifier <= 5) {
 			position += direction * deltaTime * speed;
 		}
 	}
 
 	lastTime = currentTime;
+}
+
+
+void GLRenderer::HandleAutopilotInputs() {
+
+	if (glfwGetKey(win, GLFW_KEY_F1) == GLFW_PRESS ||
+		glfwGetKey(win, GLFW_KEY_F2) == GLFW_PRESS ||
+		glfwGetKey(win, GLFW_KEY_F3) == GLFW_PRESS ||
+		glfwGetKey(win, GLFW_KEY_F4) == GLFW_PRESS)
+	{
+
+		static double lastTime = 0;
+
+		// Time since last frame
+		double currentTime = glfwGetTime();
+		float deltaTime = float(currentTime - lastTime);
+
+		if (deltaTime > 1) {
+
+			if (glfwGetKey(win, GLFW_KEY_F1) == GLFW_PRESS){
+				m_Autopilot->set_start(position);
+			}
+
+			if (glfwGetKey(win, GLFW_KEY_F2) == GLFW_PRESS) {
+				m_Autopilot->set_destination(position);
+			}
+
+			if (glfwGetKey(win, GLFW_KEY_F3) == GLFW_PRESS) {
+				m_Autopilot->start_autopilot();
+			}
+
+			if (glfwGetKey(win, GLFW_KEY_F4) == GLFW_PRESS) {
+				m_Autopilot->stop_autopilot();
+
+			}
+			lastTime = currentTime;
+		}
+	}		
 }
 
 // Main part of game loop.
@@ -281,6 +320,7 @@ void GLRenderer::DrawScene()
 
 	UpdateMatricesFromInputs();		// Update camera position and view / projection matrices
 	HandleModelManipulation();
+	HandleAutopilotInputs();
 
 	// Draw Terrain
 	glUniformMatrix4fv(M_MatrixID, 1, GL_FALSE, &glm::mat4()[0][0]);
@@ -314,28 +354,6 @@ void GLRenderer::DrawScene()
 
 		if (m_Models[i]->name == "sky") {
 			glEnable(GL_CULL_FACE);
-		}
-	}
-
-	// Draw Bullets
-	std::vector<BulletParticle*>::iterator it;
-	for (it = m_Bullets.begin(); it != m_Bullets.end();) {
-
-		if ((*it)->alive) {
-
-			glUniformMatrix4fv(M_MatrixID, 1, GL_FALSE, &(*it)->sphere->meshes[0].ModelMat[0][0]);
-			glUniformMatrix4fv(V_MatrixID, 1, GL_FALSE, &View[0][0]);
-			MVP = Projection * View * (*it)->sphere->meshes[0].ModelMat;
-			glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-
-			(*it)->Draw(win);
-
-			++it;			
-		}
-		else {
-			delete (*it)->sphere;
-			delete * it;
-			it = m_Bullets.erase(it);
 		}
 	}
 
@@ -632,13 +650,6 @@ void GLRenderer::HandleSpawning() {
 		}
 		last_time_deleted = currentTime;
 	}
-
-	if (glfwGetMouseButton(win, GLFW_MOUSE_BUTTON_MIDDLE) == GLFW_PRESS) {
-
-		glm::vec3 bullet_pos = position;
-		bullet_pos.y -= 50;
-		m_Bullets.push_back(new BulletParticle(bullet_pos, direction));
-	}
 }
 
 
@@ -824,11 +835,6 @@ void GLRenderer::DestroyScene()
 
 	for (size_t i = 0; i < m_ModelsBank.size(); i++) {
 		delete m_ModelsBank[i];
-	}
-
-	for (size_t i = 0; i < m_Bullets.size(); i++) {
-		delete m_Bullets[i]->sphere;
-		delete m_Bullets[i];
 	}
 
 	delete m_pProgram;

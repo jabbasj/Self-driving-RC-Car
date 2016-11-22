@@ -9,12 +9,11 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	bool statusOkay = false;
 
-
 	/*vvvvvvvvvv Initialize window,glew, glfw libraries vvvvvvvvvvv*/
 	GLWindow myWindowManager;
 
 	statusOkay = myWindowManager.InitializeGLFW();
-	statusOkay = myWindowManager.CreateGLFWWindow("OpenGL Window", 1024, 768);
+	statusOkay = myWindowManager.CreateGLFWWindow("Autopilot Simulation", 1024, 768);
 	statusOkay = myWindowManager.InitializeGLEW();
 
 	if (!statusOkay) { return 0; }
@@ -22,6 +21,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	myWindowManager.SetKeyListener();
 	
 	GLRenderer myRenderer(myWindowManager.window);
+
+	Autopilot myAutopilot(&myRenderer);
+
+	myRenderer.m_Autopilot = &myAutopilot;
 	myRenderer.PrepareScene();
 
 #ifdef CAP_FPS

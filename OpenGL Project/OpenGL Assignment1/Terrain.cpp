@@ -61,22 +61,48 @@ void Terrain::GenerateDepthMap() {
 			v.Position.y = float(HEIGHT_SCALAR*(_r + _g + _b));
 			v.Position.z = float(j * Z_SCALAR + Z_TRANSLATE);
 			InsertPoint(v);
-
-			//STREET MAP TEST
-			_vec2 temp;
-			temp.x = v.Position.x;
-			temp.z = v.Position.z;
-			int identifier = 0; /*street*/
-
-			if (v.Position.y > 0.0f) {
-				identifier = 1; /*not street*/
-			}
-
-			StreetMap.insert(std::pair<_vec2, int>(temp, identifier));
 		}
 	}
 
 	SOIL_free_image_data(pixels_);
+
+	GenerateStreetMap();
+}
+
+
+void Terrain::GenerateStreetMap() {
+
+	int width, height;
+
+	unsigned char* pixels_ = SOIL_load_image("./models/city_streets.bmp", &width, &height, 0, SOIL_LOAD_RGB);
+
+	for (int i = 0; i <= width; i++)
+	{
+		for (int j = 0; j <= height; j++)
+		{
+
+			unsigned char r = pixels_[(i + j * width) * 3 + 0];
+			unsigned char g = pixels_[(i + j * width) * 3 + 1];
+			unsigned char b = pixels_[(i + j * width) * 3 + 2];
+
+			float _r = (float)r / 255;
+			float _g = (float)g / 255;
+			float _b = (float)b / 255;
+
+
+			//STREET MAP TEST
+			_vec2 temp;
+			temp.x = float(i * X_SCALAR + X_TRANSLATE);
+			temp.z = float(j * Z_SCALAR + Z_TRANSLATE);
+
+			int street_id = int((_r + _g + _b) * 10 / 3);
+			/*black (ideal): 0, .... ,white (edge, do not drive): 10*/
+			StreetMap.insert(std::pair<_vec2, int>(temp, street_id));
+		}
+	}
+
+	SOIL_free_image_data(pixels_);
+
 }
 
 
@@ -157,10 +183,11 @@ void Terrain::LoadVertices() {
 			v4->TexCoords = glm::vec2(p4.x / MAX_X_POS, p4.z / MAX_Z_POS);
 			vertices.push_back(*v4);
 
+			/*
 			float angle = glm::dot(normal, glm::vec3(1, 0, 0));
 			if (angle < 0.10) {
 				SpawnMap.insert(std::pair<_vec2, bool>(pos4, false));
-			}
+			}*/
 
 			x++;
 		}
@@ -170,28 +197,7 @@ void Terrain::LoadVertices() {
 }
 
 
-bool Terrain::CheckNothingNearby(_vec2 pos) {
 
-	bool nothing_nearby = true;
-
-	for (size_t i = -5; i < 5; i++) {
-		for (size_t j = -5; j < 5; j++) {			
-
-			_vec2 test;
-			test.x = float(pos.x + i * X_SCALAR);
-			test.z = float(pos.z + j * Z_SCALAR);
-			
-			if (SpawnMap.count(test) > 0) {
-				if (SpawnMap.find(test)->second == true) {
-					nothing_nearby = false;
-					break;
-				}
-			}
-		}
-	}
-
-	return nothing_nearby;
-}
 
 void Terrain::SetupTerrain() {
 
@@ -249,30 +255,4 @@ void Terrain::SetupTerrain() {
 	// Vertex Texture Coords
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, TexCoords));
-}
-
-
-void Terrain::RequestUserInput() {
-
-	int num = 0;
-	std::string input = "";
-
-	while (num > 50 || num <= 0) {
-		std::cout << "Enter the number of terrain disturbance lines: \n";
-		try {
-			std::cin >> input;
-			num = std::stoi(input);
-
-			if (num > 50 || num <= 0) {
-				std::cout << "Number must be between 1 and 50!\n";
-			}
-		}
-		catch (...) {
-			std::cout << "Wrong input!\n";
-			num = 0;
-			input = "";
-		}
-	}
-
-	NUM_OF_LINES = num;
 }

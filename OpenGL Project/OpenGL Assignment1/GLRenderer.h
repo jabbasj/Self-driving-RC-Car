@@ -4,7 +4,10 @@
    Manages the shaders, input/output, manipulates the models */
 class GLRenderer
 {
+	friend class Autopilot;
 public:
+	Autopilot * m_Autopilot;
+
 	void PrepareScene();					// Loads the shaders and programs, initializes opengl params
 	void Reshape(int w, int h);				// Changing viewport
 	void DrawScene();						// Draws the scene
@@ -40,21 +43,20 @@ protected:
 	void RequestUserInput();
 
 	void move(); //test streetmap
+	void HandleAutopilotInputs();
 
 protected:
 	GLProgram* m_pProgram;					// Program
 	GLShader*  m_pVertSh;					// Vertex shader
 	GLShader*  m_pFragSh;					// Fragment shader
+	GLFWwindow * win;
+	Terrain m_Terrain;						// Terrain handler
 
 	GLuint MatrixID;						// handle for our "MVP" uniform					-> TODO: Do the matrix multiplications in the shader
 	GLuint MatrixID_terrain;
 
-	GLFWwindow * win;
-
-	Terrain m_Terrain;						// Terrain handler
 	std::vector<Model *> m_Models;			// Model container
 	std::vector<LightInfo> m_Lights;		// Light container
-	std::vector<BulletParticle *> m_Bullets;
 	Model * skybox;
 
 	std::vector<Model *> m_ModelsBank;		// Models not rendered, used to copy
