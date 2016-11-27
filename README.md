@@ -45,6 +45,10 @@ Controls:
 
 ![promisechains](https://cloud.githubusercontent.com/assets/16614194/19246353/ec2ffb78-8ef3-11e6-816f-facedee7034b.png)
 
+Pathfinding:
+https://youtu.be/Jwkw6yFfcAo
+https://youtu.be/7fxqG0pLgZ8
+
 Features:
 
   Free-moving 3rd person camera of spaceship,
