@@ -1,7 +1,6 @@
 #pragma once
 // ALL headers in 1 file!
 // Avoids headache... slow compilation. 
-// Only rebuild project when u have to, just click "Play" so it's faster.
 
 //--- defines
 #define _AFXDLL						// ????????
@@ -9,6 +8,8 @@
 
 #define GLEW_STATIC					// Use static library
 //#define GLM_SWIZZLE				// Allows .xyz(), etc... makes compiling very slow! not worth.
+
+//#define PRINT_COLLISIONS_AND_RAYS
 
 //--- includes
 #include <SDKDDKVer.h>
@@ -23,6 +24,8 @@
 #include <map>
 #include <time.h>
 #include <math.h>
+#include <functional>
+#include <set>
 
 //--- assimp
 #include <assimp/Importer.hpp>      // C++ importer interface
@@ -55,3 +58,4 @@
 #include "GLRenderer.h"
 #include "GLWindow.h"
 #include "Autopilot.h"
+#include "AStar.hpp"

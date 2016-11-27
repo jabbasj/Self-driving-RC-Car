@@ -21,30 +21,48 @@ void Autopilot::set_destination(glm::vec3 pos) {
 
 
 void Autopilot::start_autopilot() {
+	PATH_READY = false;
+	
 	generate_path();
 
-	std::thread test(&Autopilot::stop_autopilot, this);
-	test.detach();
+	PATH_READY = true;
 }
 
 void Autopilot::stop_autopilot() {
 
+	if (PATH_READY) {
+		std::thread fp(&Autopilot::follow_path, this);
+		fp.detach();
+	}
+	else {
+		std::cout << "Path not yet ready!\n";
+	}
+}
+
+void Autopilot::follow_path() {
+
+	std::cout << "Following path...";
+
 	//just test
 	while (paths.size() > 0) {
-		std::vector<_vec2> sub_path = *paths.begin();
-		paths.erase(paths.begin());
+		std::vector<_vec2> sub_path = paths.back();
+		paths.pop_back();
 
 		while (sub_path.size() > 0) {
-			_vec2 next_pos = *sub_path.begin();
-			sub_path.erase(sub_path.begin());
+			_vec2 next_pos = sub_path.back();
+			sub_path.pop_back();
 
 			position->x = next_pos.x;
 			position->z = next_pos.z;
-			std::cout << "next_pos: " << position->x << " " << position->z << "\n";
-
-			Sleep(100);
+			//std::cout << "next_pos: " << position->x << " " << position->z << "\n";
+			Sleep(100); //TODO: better way
 		}
 	}
+
+	std::cout << "Arrived!\n";
+
+	PATH_READY = false;
+
 }
 
 void Autopilot::generate_path() {
@@ -60,24 +78,40 @@ void Autopilot::generate_path() {
 	}
 	else { return; }
 
-	paths.clear();
-	_vec2 pos = start;
-	std::vector<_vec2> sub_path;
+	AStar::Generator generator(m_Terrain->X_SCALAR, m_Terrain->Z_SCALAR);
+	// Set 2d map size.
+	generator.setWorldSize({ m_Terrain->MAX_X_POS * m_Terrain->X_SCALAR, m_Terrain->MAX_Z_POS * m_Terrain->Z_SCALAR });
+	// You can use a few heuristics : manhattan, euclidean or octagonal.
+	generator.setHeuristic(AStar::Heuristic::euclidean);
+	generator.setDiagonalMovement(true);
 
-	while (pos != destination) {
-		//dummy path
-		pos = nearest_point_in_direction(pos, destination);
+	for (auto i = StreetMap->begin(); i != StreetMap->end(); i++) {
+		if (i->second >= STREET_IDENTIFIER_THRESHOLD) {
+			AStar::Vec2i pos;
+			pos.x = int(i->first.x);
+			pos.y = int(i->first.z);
+			generator.addCollision(pos);
+		}
+	}
+
+	std::cout << "Generate path ... \n";
+	// This method returns vector of coordinates from target to source.
+	auto path = generator.findPath({ int(start.x), int(start.z) }, { int(destination.x), int(destination.z) });
+
+	paths.clear();
+	_vec2 pos;
+	std::vector<_vec2> sub_path;
+	
+	for (auto& coordinate : path) {
+		//std::cout << coordinate.x << " " << coordinate.y << "\n";
+		pos.x = float(coordinate.x); pos.z = float(coordinate.y);
 		sub_path.push_back(pos);
 
-		if (sub_path.size() == MAX_SUBPATH_LENGTH) {
+		if (sub_path.size() == MAX_SUBPATH_LENGTH || pos == start) {
 			paths.push_back(sub_path);
 			sub_path.clear();
 		}
-
-		if (pos == destination) {
-			paths.push_back(sub_path);
-		}
-	}		
+	}
 }
 
 //doesn't check street threshold

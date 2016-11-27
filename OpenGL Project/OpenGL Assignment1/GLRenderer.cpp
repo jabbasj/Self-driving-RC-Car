@@ -466,9 +466,13 @@ void GLRenderer::RayTracing() {
 		}
 	}
 
+#ifdef PRINT_COLLISIONS_AND_RAYS
 	system("cls");
+#endif
 	if (intersected) {
+#ifdef PRINT_COLLISIONS_AND_RAYS
 		std::cout << "RAY CROSSED: " << selected->name << "\n";
+#endif
 		
 	}
 	else {
@@ -511,8 +515,10 @@ bool GLRenderer::CollisionDetection() {
 			if (currPosition.x <= max.x && currPosition.x >= min.x || currPosition.x >= max.x && currPosition.x <= min.x) {
 				if (currPosition.y <= max.y && currPosition.y >= min.y || currPosition.y >= max.y && currPosition.y <= min.y) {
 					if (currPosition.z <= max.z && currPosition.z >= min.z || currPosition.z >= max.z && currPosition.z <= min.z) {
+#ifdef PRINT_COLLISIONS_AND_RAYS
 						system("cls");
-						std::cout << "PENETRATED: " << mesh->parent->name << "\n";						
+						std::cout << "PENETRATED: " << mesh->parent->name << "\n";	
+#endif
 
 						glm::vec3 push_back = currPosition - mesh_pos - direction;
 

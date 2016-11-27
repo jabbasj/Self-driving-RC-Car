@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="all_headers.h" />
+    <ClInclude Include="AStar.hpp" />
     <ClInclude Include="Autopilot.h" />
     <ClInclude Include="GLProgram.h" />
     <ClInclude Include="GLRenderer.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AStar.cpp" />
     <ClCompile Include="Autopilot.cpp" />
     <ClCompile Include="GLProgram.cpp" />
     <ClCompile Include="GLRenderer.cpp" />

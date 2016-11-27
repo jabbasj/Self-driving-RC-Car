@@ -1,7 +1,7 @@
 #include "all_headers.h"
 
 #define MAX_SUBPATH_LENGTH 100
-#define STREET_IDENTIFIER_THRESHOLD 5
+#define STREET_IDENTIFIER_THRESHOLD 7
 
 //TODO: Implement path generation (broken into linear sections) based on street identifier
 //TODO: Implement high level FSM here
@@ -17,6 +17,7 @@ public:
 
 		position = &m_Renderer->position;
 		direction = &m_Renderer->direction;
+		PATH_READY = false;
 	}
 
 	void set_start(glm::vec3 pos);
@@ -37,9 +38,11 @@ private:
 
 	glm::vec3 * position;
 	glm::vec3 * direction;
+	bool PATH_READY;
 
 private:
 	void generate_path();
+	void follow_path();
 	_vec2 nearest_point_in_direction(_vec2 pos, _vec2 dir);
 	_vec2 scale_position(_vec2 pos);
 	_vec2 scale_position(glm::vec3 pos);
