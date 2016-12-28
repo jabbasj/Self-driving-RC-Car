@@ -12,6 +12,7 @@ protected:
 
 	std::multimap<_vec2, Vertex> DepthMap;
 	std::multimap<_vec2, int> StreetMap;
+	std::multimap<_vec2, int> StopsMap;
 	std::vector<Vertex> vertices;
 	GLuint terrain_texture;
 
@@ -29,6 +30,7 @@ private:
 	void SetupTerrain();
 	void GenerateDepthMap();
 	void GenerateStreetMap();
+	void GenerateStopsMap();
 	void LoadVertices();
 
 	GLuint VAO, VBO;

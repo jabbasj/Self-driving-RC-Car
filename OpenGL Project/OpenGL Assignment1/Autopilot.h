@@ -2,34 +2,33 @@
 
 #define MAX_SUBPATH_LENGTH 100
 #define STREET_IDENTIFIER_THRESHOLD 7
+#define STOP_LOOK_AHEAD 20
 
-//TODO: Implement path generation (broken into linear sections) based on street identifier
-//TODO: Implement high level FSM here
-//TODO: Add "driver" class for low level functions (moving/directing the car)
+//TODO: Real-life map distance equivalance
+//TODO: Break path into linear sections
+//TODO: Figure out turning angles from path
+//TODO: Add bluetooth communication
+//TODO: Synchronize with RC car through bluetooth (from speed, time estimate where car is? or have checkpoints detected by car sensor?)
+//TODO: Create seperate "driver" class for low level functions (moving/directing the car), syncs with Autopilot via bluetooth
+//TODO: Implement high level FSM in driver class (first figure out what states will exist: example: waiting, straight motion, turning left, turning right, stopping, stopped, synchronizing)
 
 class Autopilot {
 
 public:
-	Autopilot(GLRenderer* rend) {
-		m_Renderer = rend;
-		m_Terrain = &rend->m_Terrain;
-		StreetMap = &m_Terrain->StreetMap;
-
-		position = &m_Renderer->position;
-		direction = &m_Renderer->direction;
-		PATH_READY = false;
-	}
-
+	Autopilot(GLRenderer* rend);
 	void set_start(glm::vec3 pos);
 	void set_destination(glm::vec3 dest);
 
 	void start_autopilot();
 	void stop_autopilot();
+	bool check_upcoming_stop(_vec2 curr_pos, std::vector<_vec2> sub_path);
+	float adjust_angle(_vec2 next_pos);
 
 private:
 	GLRenderer * m_Renderer;
 	Terrain * m_Terrain;
 	std::multimap<_vec2, int> * StreetMap;
+	std::multimap<_vec2, int> * StopsMap;
 
 	std::vector<std::vector<_vec2>> paths;
 
@@ -39,6 +38,8 @@ private:
 	glm::vec3 * position;
 	glm::vec3 * direction;
 	bool PATH_READY;
+	bool SKIP_STOP;
+	bool STOP_DETECTED;
 
 private:
 	void generate_path();

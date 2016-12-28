@@ -1,5 +1,19 @@
 #include "all_headers.h"
 
+Autopilot::Autopilot(GLRenderer* rend) {
+	m_Renderer = rend;
+	m_Terrain = &rend->m_Terrain;
+	StreetMap = &m_Terrain->StreetMap;
+	StopsMap = &m_Terrain->StopsMap;
+
+	position = &m_Renderer->position;
+	direction = &m_Renderer->direction;
+	PATH_READY = false;
+	SKIP_STOP = false;
+	STOP_DETECTED = false;
+}
+
+
 void Autopilot::set_start(glm::vec3 pos) {
 
 	start = scale_position(pos);
@@ -21,6 +35,7 @@ void Autopilot::set_destination(glm::vec3 pos) {
 
 
 void Autopilot::start_autopilot() {
+
 	PATH_READY = false;
 	
 	generate_path();
@@ -42,6 +57,10 @@ void Autopilot::stop_autopilot() {
 void Autopilot::follow_path() {
 
 	std::cout << "Following path...";
+	PATH_READY = false;
+	SKIP_STOP = false;
+	STOP_DETECTED = false;
+	int counter = -1;
 
 	//just test
 	while (paths.size() > 0) {
@@ -49,20 +68,48 @@ void Autopilot::follow_path() {
 		paths.pop_back();
 
 		while (sub_path.size() > 0) {
+			counter++;
 			_vec2 next_pos = sub_path.back();
 			sub_path.pop_back();
 
+			adjust_angle(next_pos);
+
 			position->x = next_pos.x;
 			position->z = next_pos.z;
-			//std::cout << "next_pos: " << position->x << " " << position->z << "\n";
-			Sleep(100); //TODO: better way
+
+			Sleep(100);
+
+			//Check for incoming stops
+			if (counter % STOP_LOOK_AHEAD == 0) {
+				if (sub_path.size() > 0) {
+					STOP_DETECTED = check_upcoming_stop(next_pos, sub_path);
+				}
+			}
+
+			if (STOP_DETECTED) {
+
+				if (!SKIP_STOP) {
+					//expecting stop
+					std::cout << "\nStop detected...";
+				}
+
+				if (StopsMap->count(next_pos) == 1) {
+					//stop found
+
+					if (!SKIP_STOP) {
+						std::cout << "\nSTOPPING!";
+						Sleep(2000);
+					}
+					counter = -1;
+					SKIP_STOP = !SKIP_STOP;
+					STOP_DETECTED = false;
+				}
+			}
+
 		}
 	}
 
 	std::cout << "Arrived!\n";
-
-	PATH_READY = false;
-
 }
 
 void Autopilot::generate_path() {
@@ -112,6 +159,61 @@ void Autopilot::generate_path() {
 			sub_path.clear();
 		}
 	}
+}
+
+float Autopilot::adjust_angle(_vec2 next_pos) {
+
+	float angle = 0;
+
+	return angle;
+}
+
+//check if a stop is coming up in our path
+bool Autopilot::check_upcoming_stop(_vec2 curr_pos, std::vector<_vec2> curr_sub_path) {
+
+	_vec2 pos = curr_pos;
+	int orginal_sub_path_size = curr_sub_path.size();
+
+	int i;
+	for (i = 0; i <= STOP_LOOK_AHEAD; i++) {
+
+		if (StopsMap->count(pos) == 1) {
+			return true;
+		}
+		else {
+			if (curr_sub_path.size() > 0) {
+				pos = curr_sub_path.back();
+				curr_sub_path.pop_back();
+			}
+			else {
+				break;
+			}
+		}
+	}
+
+	if (orginal_sub_path_size < 10 && paths.size() > 0) {
+
+		std::vector<_vec2> next_sub_path = paths.back();
+
+		pos = next_sub_path.back();
+		next_sub_path.pop_back();
+
+		for (int j = 0; j <= STOP_LOOK_AHEAD - i; j++) {
+			if (StopsMap->count(pos) == 1) {
+				return true;
+			}
+			else {
+				if (next_sub_path.size() > 0) {
+					pos = next_sub_path.back();
+					next_sub_path.pop_back();
+				}
+				else {
+					break;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 //doesn't check street threshold

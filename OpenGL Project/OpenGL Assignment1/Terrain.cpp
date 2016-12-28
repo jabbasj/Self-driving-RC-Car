@@ -66,7 +66,7 @@ void Terrain::GenerateDepthMap() {
 
 	SOIL_free_image_data(pixels_);
 
-	GenerateStreetMap();
+	
 }
 
 
@@ -89,8 +89,6 @@ void Terrain::GenerateStreetMap() {
 			float _g = (float)g / 255;
 			float _b = (float)b / 255;
 
-
-			//STREET MAP TEST
 			_vec2 temp;
 			temp.x = float(i * X_SCALAR + X_TRANSLATE);
 			temp.z = float(j * Z_SCALAR + Z_TRANSLATE);
@@ -104,6 +102,42 @@ void Terrain::GenerateStreetMap() {
 	SOIL_free_image_data(pixels_);
 
 }
+
+
+void Terrain::GenerateStopsMap() {
+
+	int width, height;
+
+	unsigned char* pixels_ = SOIL_load_image("./models/city_with_stops.bmp", &width, &height, 0, SOIL_LOAD_RGB);
+
+	for (int i = 0; i <= width; i++)
+	{
+		for (int j = 0; j <= height; j++)
+		{
+
+			unsigned char r = pixels_[(i + j * width) * 3 + 0];
+			unsigned char g = pixels_[(i + j * width) * 3 + 1];
+			unsigned char b = pixels_[(i + j * width) * 3 + 2];
+
+			float _r = (float)r / 255;
+			float _g = (float)g / 255;
+			float _b = (float)b / 255;
+
+
+			_vec2 temp;
+			temp.x = float(i * X_SCALAR + X_TRANSLATE);
+			temp.z = float(j * Z_SCALAR + Z_TRANSLATE);
+
+			if (_r == 1 && _g == 0 && _b == 0) {
+				StopsMap.insert(std::pair<_vec2, int>(temp, 1));
+			}			
+		}
+	}
+
+	SOIL_free_image_data(pixels_);
+
+}
+
 
 
 void Terrain::LoadVertices() {
@@ -205,6 +239,8 @@ void Terrain::SetupTerrain() {
 
 	//RequestUserInput();
 	GenerateDepthMap();
+	GenerateStreetMap();
+	GenerateStopsMap();
 	LoadVertices();
 
 	_vec2 newTile;
