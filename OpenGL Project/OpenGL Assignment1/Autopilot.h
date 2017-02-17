@@ -1,11 +1,17 @@
 #include "all_headers.h"
 
-#define MAX_SUBPATH_LENGTH 100
 #define STREET_IDENTIFIER_THRESHOLD 7
+#define TURN_ANGLE_THRESHOLD 30
+
 #define STOP_LOOK_AHEAD 20
+#define ANGLE_LOOK_AHEAD 5 //where to point
+#define TURN_LOOK_AHEAD 20 //considered for coming turn
+
+#define IRL_WIDTH 254 //cm
+
 
 //TODO: Real-life map distance equivalance
-//TODO: Break path into linear sections
+//TODO: Break path into linear sections?
 //TODO: Figure out turning angles from path
 //TODO: Add bluetooth communication
 //TODO: Synchronize with RC car through bluetooth (from speed, time estimate where car is? or have checkpoints detected by car sensor?)
@@ -21,8 +27,9 @@ public:
 
 	void start_autopilot();
 	void stop_autopilot();
-	bool check_upcoming_stop(_vec2 curr_pos, std::vector<_vec2> sub_path);
-	float adjust_angle(_vec2 next_pos);
+	bool check_upcoming_stop(_vec2 curr_pos);
+	float compute_angle(_vec2 next_pos, int threshold);
+	_vec2 irl_scale(_vec2 pos);
 
 private:
 	GLRenderer * m_Renderer;
@@ -30,7 +37,7 @@ private:
 	std::multimap<_vec2, int> * StreetMap;
 	std::multimap<_vec2, int> * StopsMap;
 
-	std::vector<std::vector<_vec2>> paths;
+	std::vector<_vec2> path;
 
 	_vec2 start;
 	_vec2 destination;

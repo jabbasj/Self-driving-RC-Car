@@ -17,7 +17,7 @@ public:
 
 protected:
 
-	bool fix_to_ground = false;
+	bool fix_to_ground = true;
 	bool ignore_roads = false;
 
 	void SetData();
@@ -78,6 +78,8 @@ protected:
 	Model null_model;
 	Model* selected = &null_model;				// Currently targeted by ray
 	Model* ground = &null_model;
+	Model* first_person = &null_model;
+	glm::vec3 last_pos;
 
 	float horizontalAngle = 3.14f;				// Initial horizontal angle : toward -Z		(angle around Y)
 	float verticalAngle = 0.0f;					// Initial vertical angle : none			(angle around X)

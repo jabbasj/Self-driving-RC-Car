@@ -18,8 +18,11 @@ void Autopilot::set_start(glm::vec3 pos) {
 
 	start = scale_position(pos);
 
-	if (point_exists(start)) {
+	if (point_meets_threshold(start)) {
 		std::cout << "START SET\n";
+	}
+	else {
+		std::cout << "Invalid, try again...\n";
 	}
 }
 
@@ -28,8 +31,11 @@ void Autopilot::set_destination(glm::vec3 pos) {
 
 	destination = scale_position(pos);
 
-	if (point_exists(destination)) {
+	if (point_meets_threshold(destination)) {
 		std::cout << "DESTINATION SET\n";
+	}
+	else {
+		std::cout << "Invalid, try again...\n";
 	}
 }
 
@@ -61,64 +67,96 @@ void Autopilot::follow_path() {
 	SKIP_STOP = false;
 	STOP_DETECTED = false;
 	int counter = -1;
+	float next_angle = 0.0f;
+	float turn_angle = 0.0f;
+	_vec2 irl_pos;
+	_vec2 last_irl_pos = { 0, 0 };
+	float distance = 0.0f;
 
-	//just test
-	while (paths.size() > 0) {
-		std::vector<_vec2> sub_path = paths.back();
-		paths.pop_back();
+	while (path.size() > 0) {
+		
+		_vec2 next_pos = path.back();
+		path.pop_back();
 
-		while (sub_path.size() > 0) {
-			counter++;
-			_vec2 next_pos = sub_path.back();
-			sub_path.pop_back();
+		counter++;
+		irl_pos = irl_scale(next_pos);
+		if (last_irl_pos.x != 0 && last_irl_pos.z != 0) {
+			distance += sqrt(pow(last_irl_pos.x - irl_pos.x, 2) + pow(last_irl_pos.z - irl_pos.z, 2));
+		}
+		
+		next_angle = compute_angle(next_pos, ANGLE_LOOK_AHEAD);
+		turn_angle = compute_angle(next_pos, TURN_LOOK_AHEAD);
+		
+		float angle_diff = (next_angle - turn_angle) * 180 / 3.14f;
 
-			adjust_angle(next_pos);
+		if (abs(angle_diff) > TURN_ANGLE_THRESHOLD /* degrees*/ && abs(angle_diff) < 180) {
 
-			position->x = next_pos.x;
-			position->z = next_pos.z;
-
-			Sleep(100);
-
-			//Check for incoming stops
-			if (counter % STOP_LOOK_AHEAD == 0) {
-				if (sub_path.size() > 0) {
-					STOP_DETECTED = check_upcoming_stop(next_pos, sub_path);
-				}
+			int index = TURN_LOOK_AHEAD;
+			_vec2 temp;
+			if (path.size() >= index) {
+				temp = *(path.end() - TURN_LOOK_AHEAD);
+			}
+			else {
+				temp = *path.begin();
 			}
 
-			if (STOP_DETECTED) {
+			glm::vec3 vecTemp = glm::normalize(glm::vec3(temp.x, position->y, temp.z) - *position);
+			glm::vec3 vecA = *direction;
+
+			float target_angle = vecA.x * vecTemp.z - vecA.z * vecTemp.x;
+			
+			if (target_angle > 0) {
+				std::cout << "\nTurning right..." << angle_diff;
+			}
+			else {
+				std::cout << "\nTurning left..." << angle_diff;
+			}
+		}
+
+		m_Renderer->horizontalAngle = next_angle;
+		position->x = next_pos.x;
+		position->z = next_pos.z;
+
+		Sleep(100);
+
+		//Check for incoming stops
+		if (counter % STOP_LOOK_AHEAD == 0) {
+			STOP_DETECTED = check_upcoming_stop(next_pos);
+		}
+
+		if (STOP_DETECTED) {
+
+			if (!SKIP_STOP) {
+				//expecting stop
+				std::cout << "\nStop detected...";
+			}
+
+			if (StopsMap->count(next_pos) == 1) {
+				//stop found
 
 				if (!SKIP_STOP) {
-					//expecting stop
-					std::cout << "\nStop detected...";
+					std::cout << "\nSTOPPING!";
+					Sleep(2000);
 				}
-
-				if (StopsMap->count(next_pos) == 1) {
-					//stop found
-
-					if (!SKIP_STOP) {
-						std::cout << "\nSTOPPING!";
-						Sleep(2000);
-					}
-					counter = -1;
-					SKIP_STOP = !SKIP_STOP;
-					STOP_DETECTED = false;
-				}
+				counter = -1;
+				SKIP_STOP = !SKIP_STOP;
+				STOP_DETECTED = false;
 			}
-
 		}
+		last_irl_pos = irl_pos;
 	}
 
-	std::cout << "Arrived!\n";
+	std::cout << "\nArrived! IRL distance travelled: " << distance << "cm\n";
 }
+
 
 void Autopilot::generate_path() {
 
 	//Check if Start & Destination are set and on a street
 	if (StreetMap->count(start) == 1 && StreetMap->count(destination) == 1) {
 
-		if (StreetMap->find(start)->second <= STREET_IDENTIFIER_THRESHOLD
-			&& StreetMap->find(destination)->second <= STREET_IDENTIFIER_THRESHOLD) {
+		if (StreetMap->find(start)->second < STREET_IDENTIFIER_THRESHOLD
+			&& StreetMap->find(destination)->second < STREET_IDENTIFIER_THRESHOLD) {
 
 		}
 		else { return; }
@@ -143,76 +181,84 @@ void Autopilot::generate_path() {
 
 	std::cout << "Generate path ... \n";
 	// This method returns vector of coordinates from target to source.
-	auto path = generator.findPath({ int(start.x), int(start.z) }, { int(destination.x), int(destination.z) });
+	auto gen_path = generator.findPath({ int(start.x), int(start.z) }, { int(destination.x), int(destination.z) });
 
-	paths.clear();
+	path.clear();
 	_vec2 pos;
-	std::vector<_vec2> sub_path;
 	
-	for (auto& coordinate : path) {
+	for (auto& coordinate : gen_path) {
 		//std::cout << coordinate.x << " " << coordinate.y << "\n";
 		pos.x = float(coordinate.x); pos.z = float(coordinate.y);
-		sub_path.push_back(pos);
-
-		if (sub_path.size() == MAX_SUBPATH_LENGTH || pos == start) {
-			paths.push_back(sub_path);
-			sub_path.clear();
-		}
+		path.push_back(pos);
 	}
 }
 
-float Autopilot::adjust_angle(_vec2 next_pos) {
+float Autopilot::compute_angle(_vec2 next_pos, int threshold) {
 
-	float angle = 0;
+	float angle = 0.0f;
+	glm::vec3 new_direction;
+	glm::vec3 temp(next_pos.x, 1, next_pos.z);
+
+	new_direction = glm::normalize(temp - *position);
+	angle = atan2(new_direction.x, new_direction.z);
+
+	if (path.size() == 0) {
+		return angle;
+	}
+
+	//Average coming angles
+	std::vector<_vec2>::iterator end = path.end();
+
+	if (path.size() > threshold) {
+		end = path.end() - threshold;
+	}
+	else {
+		end = path.begin();
+	}
+
+	std::vector<_vec2>::iterator i = path.end();
+	while (i != end)
+	{
+		--i;
+
+		glm::vec3 temp(i->x, 1, i->z);
+		new_direction = glm::normalize(temp - *position);
+		angle = (angle + atan2(new_direction.x, new_direction.z)) / 2;
+	}
 
 	return angle;
 }
 
 //check if a stop is coming up in our path
-bool Autopilot::check_upcoming_stop(_vec2 curr_pos, std::vector<_vec2> curr_sub_path) {
+bool Autopilot::check_upcoming_stop(_vec2 curr_pos) {
 
-	_vec2 pos = curr_pos;
-	int orginal_sub_path_size = curr_sub_path.size();
+	std::vector<_vec2>::iterator end = path.end();
 
-	int i;
-	for (i = 0; i <= STOP_LOOK_AHEAD; i++) {
+	if (path.size() == 0) {
+		return false;
+	}
 
-		if (StopsMap->count(pos) == 1) {
+	if (StopsMap->count(curr_pos) == 1) {
+		return true;
+	}
+
+
+	if (path.size() > STOP_LOOK_AHEAD) {
+		end = path.end() - STOP_LOOK_AHEAD;
+	}
+	else {
+		end = path.begin();
+	}
+
+	std::vector<_vec2>::iterator i = path.end();
+	while (i != end)
+	{
+		--i;
+		if (StopsMap->count(*i) == 1) {
 			return true;
-		}
-		else {
-			if (curr_sub_path.size() > 0) {
-				pos = curr_sub_path.back();
-				curr_sub_path.pop_back();
-			}
-			else {
-				break;
-			}
-		}
+		}		
 	}
 
-	if (orginal_sub_path_size < 10 && paths.size() > 0) {
-
-		std::vector<_vec2> next_sub_path = paths.back();
-
-		pos = next_sub_path.back();
-		next_sub_path.pop_back();
-
-		for (int j = 0; j <= STOP_LOOK_AHEAD - i; j++) {
-			if (StopsMap->count(pos) == 1) {
-				return true;
-			}
-			else {
-				if (next_sub_path.size() > 0) {
-					pos = next_sub_path.back();
-					next_sub_path.pop_back();
-				}
-				else {
-					break;
-				}
-			}
-		}
-	}
 	return false;
 }
 
@@ -279,6 +325,17 @@ _vec2 Autopilot::scale_position(glm::vec3 pos) {
 }
 
 
+_vec2 Autopilot::irl_scale(_vec2 pos) {
+
+	_vec2 irl_pos;
+
+	irl_pos.x = pos.x * IRL_WIDTH / (m_Terrain->MAX_X_POS * m_Terrain->X_SCALAR);
+	irl_pos.z = pos.z * IRL_WIDTH / (m_Terrain->MAX_X_POS * m_Terrain->X_SCALAR);
+
+	return irl_pos;
+}
+
+
 bool Autopilot::point_exists(_vec2 pos) {
 	if (StreetMap->count(pos) == 1) {
 		return true;
@@ -289,7 +346,7 @@ bool Autopilot::point_exists(_vec2 pos) {
 
 bool Autopilot::point_meets_threshold(_vec2 pos) {
 	if (point_exists(pos)) {
-		if (StreetMap->find(pos)->second <= STREET_IDENTIFIER_THRESHOLD) {
+		if (StreetMap->find(pos)->second < STREET_IDENTIFIER_THRESHOLD) {
 			return true;
 		}
 	}

@@ -217,13 +217,17 @@ void GLRenderer::SetData()
 	//RequestUserInput();
 	m_Terrain.SetupTerrain(); // Prepare Terrain
 
+	// Skybox model
 	m_Models.push_back(new Model("./models/skybox/skybox.obj", "sky"));
 	skybox = m_Models.back();	
 	skybox->Scale(glm::vec3(500, 150, 500));
 	skybox->AbsoluteTranslate(glm::vec3(0, 10, 0));
 
-	m_Models.push_back(new Model("./models/Mars_Explorer/Mars_Explorer.obj", "first_person"));	// First person model
+	// First person model
+	m_Models.push_back(new Model("./models/Mars_Explorer/Mars_Explorer.obj", "first_person"));	
+	first_person = m_Models.back();
 	m_Models.back()->scale = glm::vec3(0.15, 0.15, 0.15);
+	
 
 	srand(size_t(time(NULL)));	
 	ScatterModels();
@@ -254,6 +258,7 @@ void GLRenderer::move() {
 
 		street_identifier = m_Terrain.StreetMap.find(pos)->second;
 		std::cout << "STREET_ID: " << street_identifier << std::endl;
+		std::cout << position.x << ", " << position.y << ", " << position.z << "\n";
 
 		if (street_identifier <= 5) {
 			position += direction * deltaTime * speed;
@@ -277,15 +282,32 @@ void GLRenderer::HandleAutopilotInputs() {
 		// Time since last frame
 		double currentTime = glfwGetTime();
 		float deltaTime = float(currentTime - lastTime);
+		glm::vec3 intersection;
+		float intersect_dist = 100.0f;
+		float temp;
 
 		if (deltaTime > 1) {
 
 			if (glfwGetKey(win, GLFW_KEY_F1) == GLFW_PRESS){
-				m_Autopilot->set_start(position);
+				
+				if (glm::intersectRayPlane(position, direction, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), intersect_dist)) {
+
+					temp = (glm::dot(glm::vec3(0, 1, 0), (glm::vec3(0, 0, 0) - position))) / glm::dot(glm::vec3(0, 1, 0), direction);
+					intersection = position + (direction * temp);
+					m_Autopilot->set_start(intersection);
+					last_pos = intersection;
+				}
 			}
 
 			if (glfwGetKey(win, GLFW_KEY_F2) == GLFW_PRESS) {
-				m_Autopilot->set_destination(position);
+
+				if (glm::intersectRayPlane(position, direction, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0), intersect_dist)) {
+
+					temp = (glm::dot(glm::vec3(0, 1, 0), (glm::vec3(0, 0, 0) - position))) / glm::dot(glm::vec3(0, 1, 0), direction);
+					intersection = position + (direction * temp);
+
+					m_Autopilot->set_destination(intersection);
+				}
 			}
 
 			if (glfwGetKey(win, GLFW_KEY_F3) == GLFW_PRESS) {
@@ -294,7 +316,6 @@ void GLRenderer::HandleAutopilotInputs() {
 
 			if (glfwGetKey(win, GLFW_KEY_F4) == GLFW_PRESS) {
 				m_Autopilot->stop_autopilot();
-
 			}
 			lastTime = currentTime;
 		}
@@ -308,7 +329,7 @@ void GLRenderer::DrawScene()
 	if (!fix_to_ground) {
 		std::async(&GLRenderer::GroundDetection, this).get();
 	}
-	std::async(&GLRenderer::CollisionDetection, this);	// In Parallel
+	//std::async(&GLRenderer::CollisionDetection, this);	// In Parallel
 	std::async(&GLRenderer::RayTracing, this);			// In Parallel
 
 	// Clear the screen
@@ -593,17 +614,32 @@ void GLRenderer::HandleModelManipulation() {
 
 		if (glfwGetKey(win, GLFW_KEY_G) == GLFW_PRESS) {
 			// Static -> Called only first time
-			static double last_time_toggled_ground = 3;
+			static double last_time_toggled_ground = 3;		
+			static float last_horizontalAngle = horizontalAngle; // Initial horizontal angle : toward -Z		(angle around Y)
+			static float last_verticalAngle = verticalAngle; // Initial vertical angle : none			(angle around X)		
 
 			// Time since last frame
 			double currentTime = glfwGetTime();
 			float deltaTime = float(currentTime - last_time_toggled_ground);
 
 			if (deltaTime > 1) {
+				first_person->ready = !first_person->ready;
 				fix_to_ground = !fix_to_ground;
 
 				if (fix_to_ground) {
-					position.y = m_Terrain.DepthMap.begin()->second.Position.y + 25;
+					position = last_pos;
+					horizontalAngle = last_horizontalAngle;
+					verticalAngle = last_verticalAngle;
+				}
+				else {					
+					last_pos = position;
+					last_horizontalAngle = horizontalAngle;
+					last_verticalAngle = verticalAngle;
+					verticalAngle = -3.14f / 2;
+
+					position.y = m_Terrain.MAX_X_POS * m_Terrain.X_SCALAR;
+					position.x = m_Terrain.MAX_X_POS / 2 * m_Terrain.X_SCALAR;
+					position.z = m_Terrain.MAX_Z_POS / 2 * m_Terrain.Z_SCALAR;
 				}
 			}
 			last_time_toggled_ground = currentTime;
@@ -708,6 +744,11 @@ void GLRenderer::UpdateMatricesFromInputs(){
 					cos(verticalAngle) * cos(horizontalAngle)
 					);
 
+
+
+	//std::cout << "test horizontalAngle: " << atan2(direction.x, direction.z) << " rad\n";
+
+
 	// TODO: added for debugging purposes, remove this when submit
 	//printf("direc: %f, %f, %f \n", direction.x, direction.y, direction.z);
 	//printf("pos: %f, %f, %f \n", position.x, position.y, position.z);
@@ -771,27 +812,17 @@ void GLRenderer::UpdateMatricesFromInputs(){
 	// Camera matrix
 	View = glm::lookAt(position, position + direction, up);	
 
-	for (size_t i = 0; i < m_Models.size(); i++) {
-		if (m_Models[i]->name == "first_person") {
-			Model* first_person = m_Models[i];
-			glm::vec3 scale = first_person->scale;
+	// Handle first person models
+	glm::vec3 scale = first_person->scale;
+	ModelReset(first_person);
+	ModelRelativeTranslate(position, first_person);
+	ModelRotate(horizontalAngle - 3.14f * 2, up, first_person);
+	ModelRotate(verticalAngle, right, first_person);
+	ModelRelativeTranslate(glm::vec3(3, -20, 35), first_person);
+	ModelRotate(0.1f, right, first_person);
+	ModelRotate(0.05f, up, first_person);
+	ModelScale(scale, first_person);
 
-			ModelReset(first_person);
-
-			ModelRelativeTranslate(position, first_person);
-
-			ModelRotate(horizontalAngle - 3.14f * 2, up, first_person);
-			ModelRotate(verticalAngle, right, first_person);
-
-			ModelRelativeTranslate(glm::vec3(3, -20, 35), first_person);
-
-			ModelRotate(0.1f, right, first_person);
-			ModelRotate(0.05f, up, first_person);
-
-			ModelScale(scale, first_person);
-
-		}
-	}
 	// Reset mouse position for next frame
 	glfwSetCursorPos(win, width / 2, height / 2);
 
