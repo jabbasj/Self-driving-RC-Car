@@ -1,6 +1,13 @@
 # COEN490
-Electrical/Computer Engineering Capstone Project - Self-driving car (simulation)
+Electrical/Computer Engineering Capstone Project - Self-driving car
 
+
+Video of all of it coming together:
+https://www.youtube.com/watch?v=AvrhDbLKa5I&feature=youtu.be
+
+
+
+-------------------------------------------------------------------------------------------
 Copy "models" folder into folder with .exe (i.e. inside release or debug)!!
 
 Controls:
@@ -63,7 +70,8 @@ Features:
  
   Image recognition
   Autopilot
-
+  
+(done, poorly documented here - See pdf report)
 
   
 
