@@ -3,12 +3,11 @@ Electrical/Computer Engineering Capstone Project - Self-driving car
 
 
 Video of all of it coming together:
-
 https://www.youtube.com/watch?v=AvrhDbLKa5I&feature=youtu.be
 
 
 
-
+-------------------------------------------------------------------------------------------
 Copy "models" folder into folder with .exe (i.e. inside release or debug)!!
 
 Controls:
