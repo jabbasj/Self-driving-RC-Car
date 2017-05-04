@@ -1,0 +1,72 @@
+[file_prefs]
+final_new_line=true
+ensure_convert_new_lines=false
+strip_trailing_spaces=false
+replace_tabs=false
+
+[indentation]
+indent_width=4
+indent_type=1
+indent_hard_tab_width=8
+detect_indent=false
+detect_indent_width=false
+indent_mode=2
+
+[project]
+name=SelfdrivingRCCar
+base_path=/home/pi/projects/SelfdrivingRCCar
+description=
+file_patterns=
+
+[long line marker]
+long_line_behaviour=1
+long_line_column=72
+
+[files]
+current_page=17
+FILE_NAME_0=118;C;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FTimer.h;0;4
+FILE_NAME_1=198;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FTimer.cpp;0;4
+FILE_NAME_2=286;C;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FSpeedEncoder.h;0;4
+FILE_NAME_3=669;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FSpeedEncoder.cpp;0;4
+FILE_NAME_4=0;C;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2Fpid.h;0;4
+FILE_NAME_5=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2Fpid.cpp;0;4
+FILE_NAME_6=0;C;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FObstacleDetection.h;0;4
+FILE_NAME_7=699;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FObstacleDetection.cpp;0;4
+FILE_NAME_8=1864;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2Fmain.cpp;0;4
+FILE_NAME_9=582;C;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FLaneDetection.h;0;4
+FILE_NAME_10=5449;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FLaneDetection.cpp;0;4
+FILE_NAME_11=0;C;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2Ffsm.h;0;4
+FILE_NAME_12=225;C;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FDriver.h;0;4
+FILE_NAME_13=853;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FDriver.cpp;0;4
+FILE_NAME_14=166;C;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FConnectionManager.h;0;4
+FILE_NAME_15=112;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FConnectionManager.cpp;0;4
+FILE_NAME_16=619;C;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FAutopilot.h;0;4
+FILE_NAME_17=7482;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2FAutopilot.cpp;0;4
+FILE_NAME_18=1039;C;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2FSelfdrivingRCCar%2Fall_includes.h;0;4
+
+[VTE]
+last_dir=/home/pi
+
+[build-menu]
+CFT_00_LB=_Compile
+CFT_00_CM=g++-4.8 -std=c++0x -Wall -g -pthread -c -o "%e.o" "%f"
+CFT_00_WD=
+CFT_01_LB=_Build
+CFT_01_CM=\sg++-4.8 -std=c++0x -Wall -g -pthread -wiringPi $(pkg-config --libs --cflags opencv) -o "%e" "./pid.cpp" "Autopilot.cpp" "ConnectionManager.cpp" "LaneDetection.cpp" "Driver.cpp" "ObstacleDetection.cpp" "SpeedEncoder.cpp" "Timer.cpp" "./%e.o"
+CFT_01_WD=
+filetypes=C;C++;
+C++FT_00_LB=_Compile
+C++FT_00_CM=g++-4.8 -std=c++0x -Wall -g -pthread -c -o "%e.o" "%f"
+C++FT_00_WD=
+C++FT_02_LB=
+C++FT_02_CM=
+C++FT_02_WD=
+CFT_02_LB=
+CFT_02_CM=
+CFT_02_WD=
+EX_00_LB=_Execute
+EX_00_CM=sudo "./%e"
+EX_00_WD=
+C++FT_01_LB=_Build
+C++FT_01_CM=g++-4.8 -std=c++0x -Wall -g -pthread -lpigpio -lwiringPi -lxbeep -lxbee $(pkg-config --libs --cflags opencv) -o "%e" "./pid.cpp" "Autopilot.cpp" "ConnectionManager.cpp" "LaneDetection.cpp" "Driver.cpp" "ObstacleDetection.cpp" "SpeedEncoder.cpp" "Timer.cpp" "./%e.o"
+C++FT_01_WD=

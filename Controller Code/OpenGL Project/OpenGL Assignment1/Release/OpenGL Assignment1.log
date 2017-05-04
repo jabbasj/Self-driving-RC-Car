@@ -1,0 +1,45 @@
+﻿Build started 3/31/2017 12:00:15 AM.
+     1>Project "C:\Users\j_abba\Desktop\OpenGL Project\OpenGL Assignment1\OpenGL Assignment1.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt /Zm156 AStar.cpp Autopilot.cpp ConnectionManager.cpp GLProgram.cpp GLRenderer.cpp GLShader.cpp GLWindow.cpp main.cpp Mesh.cpp Model.cpp OpenGL\xbee\xbeep.cpp Terrain.cpp
+         AStar.cpp
+         Autopilot.cpp
+         ConnectionManager.cpp
+         GLProgram.cpp
+         GLRenderer.cpp
+         GLShader.cpp
+         GLWindow.cpp
+         main.cpp
+         Mesh.cpp
+         Model.cpp
+         xbeep.cpp
+         Terrain.cpp
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /D _UNICODE /D UNICODE /l"0x0409" /nologo /fo"Release\OpenGL Assignment1.res" "OpenGL Assignment1.rc" 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\j_abba\Desktop\OpenGL Project\Release\OpenGL Project.exe" /INCREMENTAL:NO /NOLOGO opengl32.lib glfw3.lib glew32s.lib "assimp-vc120-mt.lib" soil.lib libxbee3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libcmt.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\j_abba\Desktop\OpenGL Project\Release\OpenGL Project.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\j_abba\Desktop\OpenGL Project\Release\OpenGL Project.lib" /MACHINE:X86 /SAFESEH "Release\OpenGL Assignment1.res"
+         Release\AStar.obj
+         Release\Autopilot.obj
+         Release\ConnectionManager.obj
+         Release\GLProgram.obj
+         Release\GLRenderer.obj
+         Release\GLShader.obj
+         Release\GLWindow.obj
+         Release\main.obj
+         Release\Mesh.obj
+         Release\Model.obj
+         Release\xbeep.obj
+         Release\Terrain.obj
+         Generating code
+         Finished generating code
+     1>glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\j_abba\Desktop\OpenGL Project\Release\vc120.pdb'; linking object as if no debug info
+     1>soil.lib(image_DXT.obj) : warning LNK4099: PDB 'SOIL.pdb' was not found with 'soil.lib(image_DXT.obj)' or at 'C:\Users\j_abba\Desktop\OpenGL Project\Release\SOIL.pdb'; linking object as if no debug info
+     1>soil.lib(image_helper.obj) : warning LNK4099: PDB 'SOIL.pdb' was not found with 'soil.lib(image_helper.obj)' or at 'C:\Users\j_abba\Desktop\OpenGL Project\Release\SOIL.pdb'; linking object as if no debug info
+     1>soil.lib(SOIL.obj) : warning LNK4099: PDB 'SOIL.pdb' was not found with 'soil.lib(SOIL.obj)' or at 'C:\Users\j_abba\Desktop\OpenGL Project\Release\SOIL.pdb'; linking object as if no debug info
+     1>soil.lib(stb_image_aug.obj) : warning LNK4099: PDB 'SOIL.pdb' was not found with 'soil.lib(stb_image_aug.obj)' or at 'C:\Users\j_abba\Desktop\OpenGL Project\Release\SOIL.pdb'; linking object as if no debug info
+         OpenGL Assignment1.vcxproj -> C:\Users\j_abba\Desktop\OpenGL Project\Release\OpenGL Project.exe
+     1>Done Building Project "C:\Users\j_abba\Desktop\OpenGL Project\OpenGL Assignment1\OpenGL Assignment1.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:40.09

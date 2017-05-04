@@ -1,0 +1,3 @@
+compile: g++-4.8 -std=c++0x -Wall -g -pthread -c -o "%e.o" "%f"
+build:  g++-4.8 -std=c++0x -Wall -g -pthread -lwiringPi $(pkg-config --libs --cflags opencv) -o "%e" "./pid.cpp" "Autopilot.cpp" "ConnectionManager.cpp" "LaneDetection.cpp" "Driver.cpp" "ObstacleDetection.cpp" "SpeedEncoder.cpp" "Timer.cpp" "./%e.o"
+execute: sudo "./%e"

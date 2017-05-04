@@ -1,0 +1,36 @@
+[file_prefs]
+final_new_line=true
+ensure_convert_new_lines=false
+strip_trailing_spaces=false
+replace_tabs=false
+
+[indentation]
+indent_width=4
+indent_type=1
+indent_hard_tab_width=8
+detect_indent=false
+detect_indent_width=false
+indent_mode=2
+
+[project]
+name=line_detection
+base_path=/home/pi/projects/line_detection/
+description=
+file_patterns=
+
+[long line marker]
+long_line_behaviour=1
+long_line_column=72
+
+[files]
+current_page=0
+FILE_NAME_0=29;C++;0;EUTF-8;1;1;0;%2Fhome%2Fpi%2Fprojects%2Fline_detection%2FSource6.cpp;0;4
+
+[VTE]
+last_dir=/home/pi
+
+[build-menu]
+C++FT_02_LB=OpenCV Compile
+C++FT_02_CM=g++-4.8 -std=c++0x -Wall -g $(pkg-config --libs --cflags opencv) -o "%e" "./pid.cpp" "./%e.cpp"
+C++FT_02_WD=
+filetypes=C++;
